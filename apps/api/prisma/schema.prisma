@@ -1,0 +1,175 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Venue {
+  id        String   @id @default(uuid()) @db.Uuid
+  name      String
+  slug      String   @unique
+  settings  Json     @default("{}")
+  createdAt DateTime @default(now()) @map("created_at")
+
+  spotifyConnection SpotifyConnection?
+  sessions          VenueSession[]
+  tableQrs          TableQr[]
+
+  @@map("venues")
+}
+
+model SpotifyConnection {
+  venueId          String    @id @map("venue_id") @db.Uuid
+  refreshTokenEnc  String    @map("refresh_token_enc")
+  spotifyUserId    String    @map("spotify_user_id")
+  activeDeviceId   String?   @map("active_device_id")
+  connectedAt      DateTime  @default(now()) @map("connected_at")
+
+  venue Venue @relation(fields: [venueId], references: [id], onDelete: Cascade)
+
+  @@map("spotify_connections")
+}
+
+model VenueSession {
+  id       String        @id @default(uuid()) @db.Uuid
+  venueId  String        @map("venue_id") @db.Uuid
+  status   SessionStatus @default(ACTIVE)
+  openedAt DateTime      @default(now()) @map("opened_at")
+  closedAt DateTime?     @map("closed_at")
+
+  venue    Venue          @relation(fields: [venueId], references: [id], onDelete: Cascade)
+  guests   Guest[]
+  requests TrackRequest[]
+  rooms    ChatRoom[]
+
+  @@index([venueId, status])
+  @@map("venue_sessions")
+}
+
+model TableQr {
+  id      String @id @default(uuid()) @db.Uuid
+  venueId String @map("venue_id") @db.Uuid
+  tableNo Int    @map("table_no")
+  qrToken String @unique @map("qr_token")
+
+  venue Venue @relation(fields: [venueId], references: [id], onDelete: Cascade)
+
+  @@unique([venueId, tableNo])
+  @@map("table_qrs")
+}
+
+model Guest {
+  id         String      @id @default(uuid()) @db.Uuid
+  sessionId  String      @map("session_id") @db.Uuid
+  nickname   String
+  deviceHash String      @map("device_hash")
+  tableNo    Int?        @map("table_no")
+  status     GuestStatus @default(ACTIVE)
+  joinedAt   DateTime    @default(now()) @map("joined_at")
+
+  session  VenueSession   @relation(fields: [sessionId], references: [id], onDelete: Cascade)
+  requests TrackRequest[]
+  votes    Vote[]
+  messages Message[]
+
+  @@unique([sessionId, deviceHash])
+  @@map("guests")
+}
+
+model TrackRequest {
+  id             String        @id @default(uuid()) @db.Uuid
+  sessionId      String        @map("session_id") @db.Uuid
+  guestId        String        @map("guest_id") @db.Uuid
+  spotifyTrackUri String       @map("spotify_track_uri")
+  trackName      String        @map("track_name")
+  artistName     String        @map("artist_name")
+  albumArtUrl    String?       @map("album_art_url")
+  durationMs     Int           @map("duration_ms")
+  status         RequestStatus @default(PENDING)
+  finalScore     Int?          @map("final_score")
+  createdAt      DateTime      @default(now()) @map("created_at")
+  queuedAt       DateTime?     @map("queued_at")
+
+  session VenueSession @relation(fields: [sessionId], references: [id], onDelete: Cascade)
+  guest   Guest        @relation(fields: [guestId], references: [id], onDelete: Cascade)
+  votes   Vote[]
+
+  @@index([sessionId, status])
+  @@index([sessionId, spotifyTrackUri, createdAt])
+  @@map("track_requests")
+}
+
+model Vote {
+  id        String   @id @default(uuid()) @db.Uuid
+  requestId String   @map("request_id") @db.Uuid
+  guestId   String   @map("guest_id") @db.Uuid
+  value     Int      @db.SmallInt
+  createdAt DateTime @default(now()) @map("created_at")
+
+  request TrackRequest @relation(fields: [requestId], references: [id], onDelete: Cascade)
+  guest   Guest        @relation(fields: [guestId], references: [id], onDelete: Cascade)
+
+  @@unique([requestId, guestId])
+  @@map("votes")
+}
+
+model ChatRoom {
+  id        String   @id @default(uuid()) @db.Uuid
+  sessionId String   @map("session_id") @db.Uuid
+  type      RoomType
+  tableNo   Int?     @map("table_no")
+
+  session  VenueSession @relation(fields: [sessionId], references: [id], onDelete: Cascade)
+  messages Message[]
+
+  @@unique([sessionId, type, tableNo])
+  @@map("chat_rooms")
+}
+
+model Message {
+  id        String        @id @default(uuid()) @db.Uuid
+  roomId    String        @map("room_id") @db.Uuid
+  guestId   String        @map("guest_id") @db.Uuid
+  content   String
+  status    MessageStatus @default(VISIBLE)
+  createdAt DateTime      @default(now()) @map("created_at")
+
+  room  ChatRoom @relation(fields: [roomId], references: [id], onDelete: Cascade)
+  guest Guest    @relation(fields: [guestId], references: [id], onDelete: Cascade)
+
+  @@index([roomId, createdAt])
+  @@map("messages")
+}
+
+enum SessionStatus {
+  ACTIVE
+  CLOSED
+}
+
+enum GuestStatus {
+  ACTIVE
+  MUTED
+  BANNED
+}
+
+enum RequestStatus {
+  PENDING
+  QUEUED
+  PLAYED
+  VETOED
+  EXPIRED
+}
+
+enum RoomType {
+  GENERAL
+  TABLE
+}
+
+enum MessageStatus {
+  VISIBLE
+  HIDDEN
+  FLAGGED
+}
