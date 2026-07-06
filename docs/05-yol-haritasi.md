@@ -1,17 +1,18 @@
 # Yol Haritası
 
-## Faz 0 — Temel (1-2 hafta)
-- [ ] Monorepo kurulumu (pnpm + Turborepo), CI pipeline
-- [ ] Spotify Developer app kaydı (Dev Mode, Premium hesapla)
-- [ ] NestJS iskeleti: auth, config, Prisma şeması, docker-compose
-- [ ] Spotify OAuth PKCE bağlama akışı + token yenileme
+## Faz 0 — Temel ✅ (tamamlandı: 2026-07-06)
+- [x] Monorepo kurulumu (pnpm + Turborepo), CI pipeline
+- [x] Spotify Developer app kaydı (Dev Mode, Premium hesapla)
+- [x] NestJS iskeleti: auth, config, Prisma şeması, docker-compose
+- [x] Spotify OAuth PKCE bağlama akışı + token yenileme
 
-## Faz 1 — Çekirdek Kuyruk (2-3 hafta)
-- [ ] Arama proxy + Redis cache (limit 10 sayfalama)
-- [ ] İstek oluşturma + kurallar (limit, tekrar penceresi, explicit)
-- [ ] Oylama + Redis sorted set skorlama
-- [ ] Sync Worker: BullMQ, `POST /me/player/queue`, 429 backoff
-- [ ] Socket.IO: `queue:updated`, `track:queued`, `nowplaying:changed`
+## Faz 1 — Çekirdek Kuyruk ✅ (tamamlandı: 2026-07-06)
+- [x] Arama proxy + Redis cache (limit 10 sayfalama)
+- [x] İstek oluşturma + kurallar (limit, tekrar penceresi, explicit)
+- [x] Oylama + Redis sorted set skorlama
+- [x] Sync Worker: BullMQ, `POST /me/player/queue`, 429 backoff
+- [x] Socket.IO: `queue:updated`, `track:queued`, `nowplaying:changed`
+- [x] Uçtan uca saha testi (gerçek cihazla — "Kış Güneşi" kuyruğa otomatik eklendi 🎵)
 
 ## Faz 2 — Mobil Uygulama (3-4 hafta)
 - [ ] Expo kurulumu, QR deep link → misafir oturumu
@@ -35,5 +36,4 @@
 - [ ] Güvenlik gözden geçirme
 
 ## Ticarileşme Kapısı (kod dışı)
-- [ ] Umuma iletim lisansı araştırması (MESAM/MSG + Soundtrack Your Business)
-- [ ] Şirketleşme → Spotify Extended Quota başvuru koşulları takibi
+- [ ] Umuma iletim lisa
