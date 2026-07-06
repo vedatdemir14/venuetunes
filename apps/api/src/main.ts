@@ -6,6 +6,7 @@ import { AppModule } from './app.module';
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
+  app.enableShutdownHooks();
   app.use(helmet());
   app.enableCors({ origin: true, credentials: true });
   app.useGlobalPipes(
@@ -14,7 +15,4 @@ async function bootstrap() {
 
   const port = process.env.PORT ?? 3000;
   await app.listen(port);
-  console.log(`🎵 VenueTunes API: http://127.0.0.1:${port}`);
-}
-
-void bootstrap();
+  console.log(`🎵 VenueTunes API: http://127.0.0.1:${p

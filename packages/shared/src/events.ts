@@ -36,6 +36,7 @@ export interface ServerToClientEvents {
   'nowplaying:changed': (state: NowPlayingPayload) => void;
   'chat:message': (msg: ChatMessagePayload) => void;
   'guest:muted': (payload: { until: string | null }) => void;
+  'session:closed': () => void;
 }
 
 /** client → server */
@@ -43,5 +44,4 @@ export interface ClientToServerEvents {
   'vote:cast': (payload: { requestId: string; value: 1 | -1 }) => void;
   'chat:send': (payload: { roomId: string; content: string }) => void;
   'room:join': (payload: { roomId: string }) => void;
-  'room:leave': (payload: { roomId: string }) => void;
-}
+  'room:leave': (payload:

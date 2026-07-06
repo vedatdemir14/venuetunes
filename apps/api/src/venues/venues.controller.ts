@@ -1,4 +1,5 @@
 import { Body, Controller, Get, NotFoundException, Param, ParseUUIDPipe, Post } from '@nestjs/common';
+import { CreateTablesDto } from './dto/create-tables.dto';
 import { CreateVenueDto } from './dto/create-venue.dto';
 import { VenuesService } from './venues.service';
 
@@ -14,7 +15,4 @@ export class VenuesController {
   @Get(':id')
   async findOne(@Param('id', ParseUUIDPipe) id: string) {
     const venue = await this.venues.findById(id);
-    if (!venue) throw new NotFoundException('Mekan bulunamadı');
-    return venue;
-  }
-}
+    if (!venue) throw new NotFo

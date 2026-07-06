@@ -64,4 +64,5 @@ export class RealtimeGateway implements OnGatewayConnection {
   emitChatMessage(sessionId: string, msg: ChatMessagePayload) {
     this.server.to(`session:${sessionId}`).emit('chat:message', msg);
   }
-}
+
+ 

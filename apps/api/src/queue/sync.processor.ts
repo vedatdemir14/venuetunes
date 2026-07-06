@@ -11,8 +11,7 @@ import {
   SpotifyRateLimitError,
 } from '../spotify/spotify-client.service';
 import { QueueScoreService } from './queue-score.service';
-
-const SYNC_QUEUE = 'spotify-sync';
+import { SYNC_QUEUE } from './queue.constants';
 
 /**
  * Her tikte tüm aktif oturumları senkronize eder:
@@ -135,6 +134,4 @@ export class SyncProcessor extends WorkerHost {
     const queue = await this.scores.snapshot(sessionId);
     this.realtime.emitQueueUpdated(sessionId, queue);
 
-    this.logger.log(`🎵 Kuyruğa eklendi: "${request.trackName}" (skor ${top.score})`);
-  }
-}
+    this.logger.log(`🎵 Kuyruğa eklendi: "${request.trackName}" (skor ${top.score

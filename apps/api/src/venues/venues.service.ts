@@ -1,5 +1,6 @@
-import { ConflictException, Injectable } from '@nestjs/common';
+import { ConflictException, Injectable, NotFoundException } from '@nestjs/common';
 import { DEFAULT_VENUE_SETTINGS } from '@venuetunes/shared';
+import { randomBytes } from 'crypto';
 import { PrismaService } from '../prisma/prisma.service';
 import { CreateVenueDto } from './dto/create-venue.dto';
 
@@ -20,10 +21,6 @@ export class VenuesService {
     });
   }
 
-  findById(id: string) {
-    return this.prisma.venue.findUnique({
-      where: { id },
-      include: { spotifyConnection: { select: { spotifyUserId: true, connectedAt: true } } },
-    });
-  }
-}
+  /** 1..count arası masalar için QR token üret (mevcutları korur) */
+  async createTables(venueId: string, count: number) {
+    const 
