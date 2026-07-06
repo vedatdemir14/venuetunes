@@ -65,4 +65,11 @@ export class RealtimeGateway implements OnGatewayConnection {
     this.server.to(`session:${sessionId}`).emit('chat:message', msg);
   }
 
- 
+  /** Oturum kapandı: bildir ve odadaki tüm bağlantıları düşür */
+  async emitSessionClosed(sessionId: string) {
+    const room = `session:${sessionId}`;
+    this.server.to(room).emit('session:closed');
+    const sockets = await this.server.in(room).fetchSockets();
+    for (const socket of sockets) socket.disconnect(true);
+  }
+}

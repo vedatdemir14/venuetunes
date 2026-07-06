@@ -24,3 +24,23 @@ export const ERROR_CODES = {
 } as const;
 
 export type ErrorCode = keyof typeof ERROR_CODES;
+
+export interface VenueSettings {
+  maxActiveRequestsPerGuest: number;
+  repeatWindowMinutes: number;
+  explicitFilter: boolean;
+  voteMode: 'up_only' | 'up_down';
+  autoQueueThresholdSec: number;
+  blacklistedTrackUris?: string[];
+}
+
+/** Arama sonucu — API'nin istemcilere döndüğü sadeleştirilmiş şarkı */
+export interface TrackResult {
+  id: string;
+  uri: string;
+  name: string;
+  artists: string;
+  albumArtUrl: string | null;
+  durationMs: number;
+  explicit: boolean;
+}

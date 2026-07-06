@@ -6,4 +6,7 @@ import { SpotifyTokenService } from './spotify-token.service';
 
 @Module({
   controllers: [SpotifyAuthController],
-  providers: [SpotifyAuthService, SpotifyTokenService, Spo
+  providers: [SpotifyAuthService, SpotifyTokenService, SpotifyClientService],
+  exports: [SpotifyTokenService, SpotifyClientService],
+})
+export class SpotifyModule {}

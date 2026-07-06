@@ -9,4 +9,42 @@ import { QueueModule } from './queue/queue.module';
 import { RealtimeModule } from './realtime/realtime.module';
 import { RedisModule } from './redis/redis.module';
 import { RequestsModule } from './requests/requests.module';
-import { SearchModule } 
+import { SearchModule } from './search/search.module';
+import { SessionsModule } from './sessions/sessions.module';
+import { SpotifyModule } from './spotify/spotify.module';
+import { VenuesModule } from './venues/venues.module';
+
+@Module({
+  imports: [
+    ConfigModule.forRoot({
+      isGlobal: true,
+      load: [configuration],
+      validate: validateEnv,
+    }),
+    BullModule.forRootAsync({
+      inject: [ConfigService],
+      useFactory: (config: ConfigService) => {
+        const url = new URL(config.getOrThrow<string>('redisUrl'));
+        return {
+          connection: {
+            host: url.hostname,
+            port: parseInt(url.port || '6379', 10),
+            password: url.password || undefined,
+          },
+        };
+      },
+    }),
+    PrismaModule,
+    RedisModule,
+    AuthModule,
+    HealthModule,
+    VenuesModule,
+    SessionsModule,
+    SpotifyModule,
+    SearchModule,
+    RequestsModule,
+    RealtimeModule,
+    QueueModule,
+  ],
+})
+export class AppModule {}

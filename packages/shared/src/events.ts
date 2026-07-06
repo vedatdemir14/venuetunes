@@ -44,4 +44,5 @@ export interface ClientToServerEvents {
   'vote:cast': (payload: { requestId: string; value: 1 | -1 }) => void;
   'chat:send': (payload: { roomId: string; content: string }) => void;
   'room:join': (payload: { roomId: string }) => void;
-  'room:leave': (payload:
+  'room:leave': (payload: { roomId: string }) => void;
+}

@@ -71,4 +71,31 @@ export class SessionsService {
     const deviceHash = createHash('sha256').update(dto.deviceId).digest('hex').slice(0, 32);
 
     const guest = await this.prisma.guest.upsert({
-  
+      where: { sessionId_deviceHash: { sessionId: session.id, deviceHash } },
+      create: {
+        sessionId: session.id,
+        nickname: dto.nickname,
+        deviceHash,
+        tableNo: qr.tableNo,
+      },
+      update: { nickname: dto.nickname, tableNo: qr.tableNo },
+    });
+
+    if (guest.status === 'BANNED') throw new ForbiddenException('Bu oturuma erişimin engellendi');
+
+    const payload: GuestTokenPayload = {
+      sub: guest.id,
+      sessionId: session.id,
+      venueId: qr.venueId,
+      nickname: guest.nickname,
+      tableNo: guest.tableNo,
+      kind: 'guest',
+    };
+
+    return {
+      token: await this.jwt.signAsync(payload),
+      guest: { id: guest.id, nickname: guest.nickname, tableNo: guest.tableNo },
+      session: { id: session.id, venueName: qr.venue.name },
+    };
+  }
+}

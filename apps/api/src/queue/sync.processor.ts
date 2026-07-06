@@ -134,4 +134,6 @@ export class SyncProcessor extends WorkerHost {
     const queue = await this.scores.snapshot(sessionId);
     this.realtime.emitQueueUpdated(sessionId, queue);
 
-    this.logger.log(`🎵 Kuyruğa eklendi: "${request.trackName}" (skor ${top.score
+    this.logger.log(`🎵 Kuyruğa eklendi: "${request.trackName}" (skor ${top.score})`);
+  }
+}

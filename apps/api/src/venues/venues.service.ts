@@ -23,4 +23,26 @@ export class VenuesService {
 
   /** 1..count arası masalar için QR token üret (mevcutları korur) */
   async createTables(venueId: string, count: number) {
-    const 
+    const venue = await this.prisma.venue.findUnique({ where: { id: venueId } });
+    if (!venue) throw new NotFoundException('Mekan bulunamadı');
+
+    const tables = [];
+    for (let tableNo = 1; tableNo <= count; tableNo++) {
+      tables.push(
+        await this.prisma.tableQr.upsert({
+          where: { venueId_tableNo: { venueId, tableNo } },
+          create: { venueId, tableNo, qrToken: randomBytes(16).toString('base64url') },
+          update: {},
+        }),
+      );
+    }
+    return tables;
+  }
+
+  findById(id: string) {
+    return this.prisma.venue.findUnique({
+      where: { id },
+      include: { spotifyConnection: { select: { spotifyUserId: true, connectedAt: true } } },
+    });
+  }
+}

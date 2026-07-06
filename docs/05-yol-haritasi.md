@@ -36,4 +36,5 @@
 - [ ] Güvenlik gözden geçirme
 
 ## Ticarileşme Kapısı (kod dışı)
-- [ ] Umuma iletim lisa
+- [ ] Umuma iletim lisansı araştırması (MESAM/MSG + Soundtrack Your Business)
+- [ ] Şirketleşme → Spotify Extended Quota başvuru koşulları takibi

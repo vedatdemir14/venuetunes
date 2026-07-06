@@ -15,4 +15,7 @@ async function bootstrap() {
 
   const port = process.env.PORT ?? 3000;
   await app.listen(port);
-  console.log(`🎵 VenueTunes API: http://127.0.0.1:${p
+  console.log(`🎵 VenueTunes API: http://127.0.0.1:${port}`);
+}
+
+void bootstrap();

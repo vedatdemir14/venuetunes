@@ -15,4 +15,13 @@ export class VenuesController {
   @Get(':id')
   async findOne(@Param('id', ParseUUIDPipe) id: string) {
     const venue = await this.venues.findById(id);
-    if (!venue) throw new NotFo
+    if (!venue) throw new NotFoundException('Mekan bulunamadı');
+    return venue;
+  }
+
+  /** Masa QR token'ları üret (Faz 4'te admin guard + gerçek QR görseli) */
+  @Post(':id/tables')
+  createTables(@Param('id', ParseUUIDPipe) id: string, @Body() dto: CreateTablesDto) {
+    return this.venues.createTables(id, dto.count);
+  }
+}
