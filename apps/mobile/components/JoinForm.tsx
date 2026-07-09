@@ -3,11 +3,13 @@ import { useState } from 'react';
 import {
   ActivityIndicator,
   Alert,
+  KeyboardAvoidingView,
+  Platform,
+  ScrollView,
   StyleSheet,
   Text,
   TextInput,
   TouchableOpacity,
-  View,
 } from 'react-native';
 import { api } from '../lib/api';
 import { useAppStore } from '../lib/store';
@@ -41,49 +43,58 @@ export function JoinForm({ initialQrToken = '' }: { initialQrToken?: string }) {
   };
 
   return (
-    <View style={styles.container}>
-      <Text style={styles.logo}>🎵 VenueTunes</Text>
-      <Text style={styles.hint}>Masandaki QR kodun altındaki kodu gir</Text>
+    <KeyboardAvoidingView
+      style={{ flex: 1 }}
+      behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+    >
+      <ScrollView
+        contentContainerStyle={styles.container}
+        keyboardShouldPersistTaps="handled"
+        showsVerticalScrollIndicator={false}
+      >
+        <Text style={styles.logo}>🎵 VenueTunes</Text>
+        <Text style={styles.hint}>Masandaki QR kodun altındaki kodu gir</Text>
 
-      <TextInput
-        style={styles.input}
-        placeholder="Masa kodu"
-        placeholderTextColor={colors.textDim}
-        autoCapitalize="none"
-        value={qrToken}
-        onChangeText={setQrToken}
-      />
-      <TextInput
-        style={styles.input}
-        placeholder="Takma adın"
-        placeholderTextColor={colors.textDim}
-        maxLength={24}
-        value={nickname}
-        onChangeText={setNickname}
-      />
-      <TextInput
-        style={[styles.input, styles.small]}
-        placeholder="Sunucu adresi"
-        placeholderTextColor={colors.textDim}
-        autoCapitalize="none"
-        keyboardType="url"
-        value={url}
-        onChangeText={setUrl}
-      />
+        <TextInput
+          style={styles.input}
+          placeholder="Masa kodu"
+          placeholderTextColor={colors.textDim}
+          autoCapitalize="none"
+          value={qrToken}
+          onChangeText={setQrToken}
+        />
+        <TextInput
+          style={styles.input}
+          placeholder="Takma adın"
+          placeholderTextColor={colors.textDim}
+          maxLength={24}
+          value={nickname}
+          onChangeText={setNickname}
+        />
+        <TextInput
+          style={[styles.input, styles.small]}
+          placeholder="Sunucu adresi"
+          placeholderTextColor={colors.textDim}
+          autoCapitalize="none"
+          keyboardType="url"
+          value={url}
+          onChangeText={setUrl}
+        />
 
-      <TouchableOpacity style={styles.button} onPress={join} disabled={busy}>
-        {busy ? (
-          <ActivityIndicator color="#fff" />
-        ) : (
-          <Text style={styles.buttonText}>Katıl</Text>
-        )}
-      </TouchableOpacity>
-    </View>
+        <TouchableOpacity style={styles.button} onPress={join} disabled={busy}>
+          {busy ? (
+            <ActivityIndicator color="#fff" />
+          ) : (
+            <Text style={styles.buttonText}>Katıl</Text>
+          )}
+        </TouchableOpacity>
+      </ScrollView>
+    </KeyboardAvoidingView>
   );
 }
 
 const styles = StyleSheet.create({
-  container: { flex: 1, justifyContent: 'center', padding: 24, gap: 12 },
+  container: { flexGrow: 1, justifyContent: 'center', padding: 24, gap: 12 },
   logo: { fontSize: 32, fontWeight: '800', color: colors.text, textAlign: 'center' },
   hint: { color: colors.textDim, textAlign: 'center', marginBottom: 12 },
   input: {

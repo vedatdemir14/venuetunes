@@ -14,10 +14,12 @@
 - [x] Socket.IO: `queue:updated`, `track:queued`, `nowplaying:changed`
 - [x] Uçtan uca saha testi (gerçek cihazla — "Kış Güneşi" kuyruğa otomatik eklendi 🎵)
 
-## Faz 2 — Mobil Uygulama (3-4 hafta)
-- [ ] Expo kurulumu, QR deep link → misafir oturumu
-- [ ] Arama, istek, oylama ekranları + canlı kuyruk
-- [ ] Now Playing ekranı
+## Faz 2 — Mobil Uygulama (çekirdek tamam: 2026-07-09)
+- [x] Expo kurulumu (SDK 54), deep link → misafir oturumu
+- [x] Arama, istek, oylama ekranları + canlı kuyruk (telefonda doğrulandı)
+- [x] Now Playing kartı
+- [ ] QR kamera taraması (expo-camera)
+- [ ] Push bildirim: "şarkın birazdan çalacak"
 
 ## Faz 3 — Sohbet (2 hafta)
 - [ ] Oda yapısı (genel + masa), mesaj geçmişi

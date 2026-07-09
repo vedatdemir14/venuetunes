@@ -10,7 +10,8 @@
     "platforms": ["ios", "android"],
     "plugins": ["expo-router"],
     "android": {
-      "package": "app.venuetunes.mobile"
+      "package": "app.venuetunes.mobile",
+      "softwareKeyboardLayoutMode": "resize"
     },
     "ios": {
       "bundleIdentifier": "app.venuetunes.mobile"
