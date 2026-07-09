@@ -7,12 +7,12 @@
 - `fix/<konu>` — hata düzeltme
 - `docs/<konu>` — dokümantasyon
 
-## Commit Mesajları — Conventional Commits
+## Commit Mesajları — Conventional Commits (İngilizce)
 
 ```
-feat(queue): oylama skorlamasına zaman bonusu eklendi
-fix(chat): masa odasına yanlış katılım düzeltildi
-docs(api): auth akışı dokümante edildi
+feat(queue): add time-bonus to vote scoring
+fix(chat): correct table room join logic
+docs(api): document auth flow
 ```
 
 Tipler: `feat`, `fix`, `docs`, `refactor`, `test`, `chore`, `ci`

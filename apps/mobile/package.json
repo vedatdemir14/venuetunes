@@ -1,0 +1,32 @@
+{
+  "name": "@venuetunes/mobile",
+  "version": "0.1.0",
+  "private": true,
+  "main": "expo-router/entry",
+  "scripts": {
+    "dev": "expo start",
+    "android": "expo start --android",
+    "ios": "expo start --ios",
+    "lint": "tsc -p tsconfig.json --noEmit"
+  },
+  "dependencies": {
+    "@react-native-async-storage/async-storage": "2.1.2",
+    "@venuetunes/shared": "workspace:*",
+    "expo": "~53.0.0",
+    "expo-constants": "~17.1.0",
+    "expo-linking": "~7.1.0",
+    "expo-router": "~5.1.0",
+    "expo-status-bar": "~2.2.0",
+    "react": "19.0.0",
+    "react-native": "0.79.5",
+    "react-native-safe-area-context": "5.4.0",
+    "react-native-screens": "~4.11.0",
+    "socket.io-client": "^4.8.0",
+    "zustand": "^5.0.0"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.25.0",
+    "@types/react": "~19.0.0",
+    "typescript": "^5.7.0"
+  }
+}

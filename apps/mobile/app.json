@@ -1,0 +1,22 @@
+{
+  "expo": {
+    "name": "VenueTunes",
+    "slug": "venuetunes",
+    "version": "0.1.0",
+    "scheme": "venuetunes",
+    "orientation": "portrait",
+    "userInterfaceStyle": "dark",
+    "newArchEnabled": true,
+    "platforms": ["ios", "android"],
+    "plugins": ["expo-router"],
+    "android": {
+      "package": "app.venuetunes.mobile"
+    },
+    "ios": {
+      "bundleIdentifier": "app.venuetunes.mobile"
+    },
+    "experiments": {
+      "typedRoutes": true
+    }
+  }
+}
